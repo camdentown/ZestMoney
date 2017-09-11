@@ -1,0 +1,17 @@
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject ZestMoney declined email template@-->
+<!--@vars {
+"var data.comment":"Comment",
+"var data.email":"Sender Email",
+"var data.name":"Sender Name",
+"var data.telephone":"Sender Telephone"
+} @-->
+{{template config_path="design/email/header_template"}}
+Hey {{trans "%name," name=$order.getBillingAddress().getName()}},
+We are sorry to inform that your order #{{trans '#%increment_id' increment_id=$order.increment_id |raw}} placed on {{trans '%created_at' created_at=$order.getCreatedAtFormatted(2) |raw}} was declined by ZestMoney.
+{{template config_path="design/email/footer_template"}}

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">        
+	<referenceBlock name="content">
+		<block template="zestreview.phtml" class="Zest\ZestMoney\Block\Emi" name="zestreview" />
+	</referenceBlock>
+</page>

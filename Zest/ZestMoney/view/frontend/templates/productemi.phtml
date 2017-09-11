@@ -1,0 +1,95 @@
+<?php 
+$myBlock = $block->getLayout()->createBlock('Zest\ZestMoney\Block\Emi');
+$currentProduct = $myBlock->getProductDetail();
+$amount = $currentProduct->getFinalPrice();
+?>
+<div id="zest-emi-widget" class="emi-cnt"></div>
+<div class="cardlessEMI" onclick="loadDoc()">
+	<div class="zestMoney_option" id="zest-modal-btn">Zest Emi Option Available</div>
+</div>
+<div id="zestmoney-modal" class="zest-modal">
+	<div class="zest-modal-content">
+		<div class="zest-right-panel">
+			<div class="zest-modal-header">
+				<span class="zest-close">x</span>
+				<div class="zest-merchant-logos">
+					<img src="<?php echo $this->getViewFileUrl('Zest_ZestMoney::images/logo.svg'); ?>" alt="ZestMoney" class="zest-logo">
+					<span class="zest-with">with</span>
+					<img src="<?php echo $this->getViewFileUrl('Zest_ZestMoney::images/merchant_logo.svg'); ?>"  alt="merchant_logo" class="zest-merchant-logo">
+				</div>
+				<h1 id="zest-modal-title"></h1> 
+			</div>
+			<div class="zest-emi-table">
+				<table class="zest-emi" cellspacing="0">
+					<tbody id="emi_plan_table">
+					</tbody>
+				</table>
+			</div>	 
+			<div class="zest-modal-body">
+				<h2 class="zest-select">Select <span class="zest-bold">"Pay Using ZestMoney EMI"</span> at Checkout</h2>
+				<div class="zest-features-table">
+					<table cellspacing="0" class="list-table">
+						<tbody>
+							<tr>
+								<td class="zest-feature-1">High approval rates</td>
+								<td class="zest-feature-2">No credit card required</td>
+							</tr>
+							<tr>
+								<td class="zest-feature-3">Completely online process</td>
+								<td class="zest-feature-4">Payment protection &amp; easy refunds</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	function loadDoc() {
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				var JSONObject = JSON.parse(this.response);
+				var DownpaymentAmount = JSONObject['DownpaymentAmount'] + JSONObject['ProcessingFee'];
+				document.getElementById('zest-modal-title').innerHTML = "Pay just Rs."+DownpaymentAmount+"/- &amp; &amp; rest in EMIs";
+				var bodyHtml = '';
+				var bodyHtml_result = '';
+				for (var i=0; i < JSONObject['Quotes'].length; i++) {
+					bodyHtml = bodyHtml+'<th>'+JSONObject['Quotes'][i]['IntallmentCount']+' months</th>';
+					bodyHtml_result = bodyHtml_result + '<td> Rs.'+JSONObject['Quotes'][i]['MonthlyInstallment']+'</td>'; 
+				}
+				document.getElementById('emi_plan_table').innerHTML = '';
+				document.getElementById('emi_plan_table').innerHTML += "<tr><th>Tenure</th>"+bodyHtml+"</tr>";
+				document.getElementById('emi_plan_table').innerHTML += "<tr><th>EMI</th>"+bodyHtml_result+"</tr>";
+
+			}
+		};
+		xhttp.open("GET", "<?php echo $this->helper('Zest\ZestMoney\Helper\Data')->PricingUrl($amount); ?>", true);
+		xhttp.send();
+	}
+
+	// When the user clicks on the button, open the modal 
+	document.getElementById("zest-modal-btn").onclick = function() {
+		document.getElementById('zestmoney-modal').style.display = "block";
+	}
+
+	// When the user clicks on <span> (x), close the modal
+	document.getElementsByClassName("zest-close")[0].onclick = function() {
+		document.getElementById('zestmoney-modal').style.display = "none";
+	}
+
+	// When the user press esc key, close the modal
+	document.onkeydown = function(e) {
+		if (e.keyCode == 27) {
+			modal.style.display = "none";
+		}
+	};
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+		if (event.target == document.getElementById('zestmoney-modal')) {
+			document.getElementById('zestmoney-modal').style.display = "none";
+		}
+	}
+</script>

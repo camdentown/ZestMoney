@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <zestemi>
+                <active>1</active>
+                <title>Zestemi</title>
+                <order_status>pending</order_status>
+                <instructions>Instruction.</instructions>
+                <min_order_total>0</min_order_total>
+                <payment_action>Authorization</payment_action>
+                <max_order_total>15000</max_order_total>
+                <sandbox_mode>1</sandbox_mode>
+                <preservecart_failure>1</preservecart_failure>
+                <sandbox_url>http://staging-app.zestmoney.in/</sandbox_url>
+                <live_url>https://app.zestmoney.in/</live_url>
+                <model>Zest\ZestMoney\Model\Zestemi</model>
+                <group>offline</group>
+                <timeout_status>zest_timeout</timeout_status>
+                <declined_status>zest_declined</declined_status>
+                <email_template>payment_us_zestemi_email_template</email_template>
+            </zestemi>
+        </payment>
+    </default>
+</config>
